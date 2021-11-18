@@ -2,37 +2,30 @@
 
 
 #include "JumpPad.h"
+#include "GameFrameWork/Character.h"
 
 // Sets default values
 AJumpPad::AJumpPad()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("My Mesh"));
-	Mesh->SetupAttachment(RootComponent);
-	Mesh->SetCollisionProfileName(TEXT("OverlapAll"));
+	Mesh->SetSimulatePhysics(true);
+
 	RootComponent = Mesh;
 
-	Mesh->OnComponentBeginOverlap.AddDynamic(this, &AJumpPad::OnOverlapBegin);
-	Mesh->OnComponentEndOverlap.AddDynamic(this, &AJumpPad::OnOverlapEnd);
+	Mesh->OnComponentHit.AddDynamic(this, &AJumpPad::OnHit);
 
 }
 
-void AJumpPad::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AJumpPad::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Name %s"), *OtherActor->GetName()));
-	}
-}
+		ACharacter* character = Cast<ACharacter>(OtherActor);
+		if (!character)
+			return;
 
-void AJumpPad::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "OverlapEnd");
-	}
+		character->LaunchCharacter(Force, false, true);
 }
 
 // Called when the game starts or when spawned

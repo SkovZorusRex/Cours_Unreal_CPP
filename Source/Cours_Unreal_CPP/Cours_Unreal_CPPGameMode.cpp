@@ -13,3 +13,11 @@ ACours_Unreal_CPPGameMode::ACours_Unreal_CPPGameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 }
+
+void ACours_Unreal_CPPGameMode::OnPlayerKilled()
+{
+	auto Controller = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetController();
+	//auto Controller = Player->GetController();
+	Controller->UnPossess();
+	RestartPlayer(Controller);
+}

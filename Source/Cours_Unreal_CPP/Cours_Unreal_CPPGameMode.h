@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+//#include "Cours_Unreal_CPP/Cours_Unreal_CPPCharacter.h"
+#include "Kismet/GameplayStatics.h"
 #include "Cours_Unreal_CPPGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -13,6 +15,7 @@ class ACours_Unreal_CPPGameMode : public AGameModeBase
 
 public:
 	ACours_Unreal_CPPGameMode();
+	void OnPlayerKilled();
 };
 
 

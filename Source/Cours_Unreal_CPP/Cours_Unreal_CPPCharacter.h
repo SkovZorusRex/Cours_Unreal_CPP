@@ -4,6 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Components/SceneComponent.h"
+#include "DrawDebugHelpers.h"
+#include "CatProjectile.h"
+#include "Cours_Unreal_CPPGameMode.h"
 #include "Cours_Unreal_CPPCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -18,6 +22,9 @@ class ACours_Unreal_CPPCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+
+	UPROPERTY(VisibleAnywhere)
+		USceneComponent* ShootingPoint;
 public:
 	ACours_Unreal_CPPCharacter();
 
@@ -29,8 +36,18 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	UPROPERTY(EditAnywhere)
+		float Health = 100.f;
+
+	AActor* HoldedObject = nullptr;
+
+	void ModifyHealth(float _amount);
+
+	void Kill();
+
 protected:
 
+	FTimerHandle TimerHandle;
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
 
@@ -41,6 +58,15 @@ protected:
 	void MoveRight(float Value);
 
 	void Shoot();
+
+	void PickUp();
+
+	void HandleDeath();
+
+	void StartCrouch();
+	void StopCrouch();
+
+	void RespawnDelay();
 
 	/** 
 	 * Called via input to turn at a given rate. 
