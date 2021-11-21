@@ -21,33 +21,34 @@ AModifyHealthVolume::AModifyHealthVolume()
 
 }
 
+void AModifyHealthVolume::DoModifyHealth()
+{
+	if (IsHealing)
+	{
+		Character->ModifyHealth(Amount);
+	}
+	else
+	{
+		Character->ModifyHealth(-Amount);
+	}
+}
+
 void AModifyHealthVolume::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor && (OtherActor != this))
 	{
-		ACours_Unreal_CPPCharacter* character = Cast<ACours_Unreal_CPPCharacter>(OtherActor);
-		if (!character)
+		Character = Cast<ACours_Unreal_CPPCharacter>(OtherActor);
+		if (!Character)
 			return;
 
-		//GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, 2.f, true, 0.f);
-
-		if (IsHealing)
-		{
-			character->ModifyHealth(Amount);
-		}
-		else
-		{
-			character->ModifyHealth(-Amount);
-		}
-		//stock varaible character dans le .h
-		//call le timer -> character->Modifyhealth
-		//OnEnd -> clear timer reset variable character
-
+		GetWorldTimerManager().SetTimer(TimerHandle, this, &AModifyHealthVolume::DoModifyHealth, 2.f, true, 0.f);
 	}
 }
 
 void AModifyHealthVolume::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	GetWorldTimerManager().ClearTimer(TimerHandle);
+	Character = nullptr;
 }
 
 // Called when the game starts or when spawned

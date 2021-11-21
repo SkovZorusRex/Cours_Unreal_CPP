@@ -26,6 +26,8 @@ ACatProjectile::ACatProjectile()
 		DecalMat = CatDecal.Object;
 	}
 
+	Mesh->SetWorldScale3D(FVector(0.3f, 0.3f, 0.3f));
+
 	/*if (CatSKMesh.Succeeded())
 	{
 		USkeletalMeshComponent* characterMesh = Cast<USkeletalMeshComponent>(GetComponentByClass(USkeletalMeshComponent::StaticClass()));

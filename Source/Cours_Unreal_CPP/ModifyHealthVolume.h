@@ -26,15 +26,13 @@ public:
 		UStaticMeshComponent* Mesh;
 
 	UPointLightComponent* Light;
-	//FTimerHandle TimerHandle;
-	//FTimerDelegate TimerDel;
-	//ACours_Unreal_CPPCharacter* Character;
+	FTimerHandle TimerHandle;
+	ACours_Unreal_CPPCharacter* Character;
 
 	// Sets default values for this actor's properties
 	AModifyHealthVolume();
 
-	/*UFUNCTION()
-		void DoModifyHealth(ACours_Unreal_CPPCharacter* character);*/
+	void DoModifyHealth();
 
 	// declare overlap begin function
 	UFUNCTION()
