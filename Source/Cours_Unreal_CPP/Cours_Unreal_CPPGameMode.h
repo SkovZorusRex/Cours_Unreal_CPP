@@ -15,6 +15,7 @@ class ACours_Unreal_CPPGameMode : public AGameModeBase
 
 public:
 	ACours_Unreal_CPPGameMode();
+
 	void OnPlayerKilled();
 };
 

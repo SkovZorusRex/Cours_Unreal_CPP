@@ -2,6 +2,7 @@
 
 #include "Cours_Unreal_CPPGameMode.h"
 #include "Cours_Unreal_CPPCharacter.h"
+#include "PlayerSave.h"
 #include "UObject/ConstructorHelpers.h"
 
 ACours_Unreal_CPPGameMode::ACours_Unreal_CPPGameMode()

@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "PlayerSave.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ACours_Unreal_CPPCharacter
@@ -84,6 +85,9 @@ void ACours_Unreal_CPPCharacter::SetupPlayerInputComponent(class UInputComponent
 
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &ACours_Unreal_CPPCharacter::StartCrouch);
 	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &ACours_Unreal_CPPCharacter::StopCrouch);
+
+	PlayerInputComponent->BindAction("Save", IE_Pressed, this, &ACours_Unreal_CPPCharacter::SavePlayerStats);
+	PlayerInputComponent->BindAction("Load", IE_Pressed, this, &ACours_Unreal_CPPCharacter::LoadPlayerStats);
 }
 
 
@@ -277,4 +281,22 @@ void ACours_Unreal_CPPCharacter::RespawnDelay()
 	Gamemode->OnPlayerKilled();
 	Destroy();
 	GetWorldTimerManager().ClearTimer(TimerHandle);
+}
+
+void ACours_Unreal_CPPCharacter::SavePlayerStats()
+{
+	UPlayerSave* SaveGameInstance = Cast<UPlayerSave>(UGameplayStatics::CreateSaveGameObject(UPlayerSave::StaticClass()));
+	SaveGameInstance->PlayerLocation = this->GetActorLocation();
+	SaveGameInstance->PlayerHealth = this->Health;
+	UGameplayStatics::SaveGameToSlot(SaveGameInstance, TEXT("MySlot"), 0);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Game Saved"));
+}
+
+void ACours_Unreal_CPPCharacter::LoadPlayerStats()
+{
+	UPlayerSave* SaveGameInstance = Cast<UPlayerSave>(UGameplayStatics::CreateSaveGameObject(UPlayerSave::StaticClass()));
+	SaveGameInstance = Cast<UPlayerSave>(UGameplayStatics::LoadGameFromSlot("MySlot", 0));
+	this->SetActorLocation(SaveGameInstance->PlayerLocation);
+	this->Health = SaveGameInstance->PlayerHealth;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Game Loaded"));
 }
