@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "SaveInterface.h"
 #include "Components/SceneComponent.h"
 #include "DrawDebugHelpers.h"
 #include "CatProjectile.h"
@@ -11,7 +12,7 @@
 #include "Cours_Unreal_CPPCharacter.generated.h"
 
 UCLASS(config=Game)
-class ACours_Unreal_CPPCharacter : public ACharacter
+class ACours_Unreal_CPPCharacter : public ACharacter, public ISaveInterface
 {
 	GENERATED_BODY()
 
@@ -36,8 +37,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, SaveGame)
 		float Health = 100.f;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, SaveGame)
+		FVector PlayerLocation = {-770.f, 370.f, 226.f};
 
 	AActor* HoldedObject = nullptr;
 
@@ -46,6 +50,9 @@ public:
 	void Kill();
 
 protected:
+
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
 	FTimerHandle TimerHandle;
 	/** Resets HMD orientation in VR. */
@@ -86,7 +93,6 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
-
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -98,10 +104,8 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
-	UFUNCTION(BlueprintCallable)
-		void SavePlayerStats();
+	FString GetUniqueSaveName_Implementation() override;
 
-	UFUNCTION(BlueprintCallable)
-		void LoadPlayerStats();
+	void OnBeforeSave_Implementation() override;
 };
 

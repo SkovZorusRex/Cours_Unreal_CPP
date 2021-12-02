@@ -16,6 +16,9 @@ class ACours_Unreal_CPPGameMode : public AGameModeBase
 public:
 	ACours_Unreal_CPPGameMode();
 
+	virtual void InitGameState() override;
+	virtual APawn* SpawnDefaultPawnAtTransform_Implementation(AController* NewPlayer, const FTransform& SpawnTransform) override;
+
 	void OnPlayerKilled();
 };
 
