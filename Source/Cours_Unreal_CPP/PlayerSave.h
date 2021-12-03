@@ -23,7 +23,7 @@ public :
 		float PlayerHealth;
 
 	UFUNCTION(BlueprintCallable)
-		static void SaveGame();
+		static void SavePlayerGame();
 
 	UFUNCTION(BlueprintCallable)
 		static void LoadGame();

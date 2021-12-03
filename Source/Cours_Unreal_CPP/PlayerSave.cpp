@@ -9,7 +9,7 @@ UPlayerSave::UPlayerSave()
 	PlayerHealth = 100.f;
 }
 
-void UPlayerSave::SaveGame()
+void UPlayerSave::SavePlayerGame()
 {
 }
 
