@@ -10,3 +10,11 @@ Developed with Unreal Engine 4 and some Love/Hate relationship with C++, Visual 
 - Zone de lave
 - Lancer de projectile
 - Projectile de peinture
+
+[TAG0312] Review C++
+- Menu Play
+- Options -tab-
+- Sauvegarde -Menu Options / P-
+- Labyrinth avec level streaming
+- Personnage avec Modele mixamo
+- Animations (Crouch, Saut, Strafe -disponible pas utilisé-
