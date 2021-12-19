@@ -18,3 +18,9 @@ Developed with Unreal Engine 4 and some Love/Hate relationship with C++, Visual 
 - Labyrinth avec level streaming
 - Personnage avec Modele mixamo
 - Animations (Crouch, Saut, Strafe -disponible pas utilisé-
+
+[TAG2212] Review Blueprint
+- Inventaire (sans UI)
+- Création aléatoire d'objet à partir d'un csv
+- IA (Patrouille, Poursuite, Enquete) Réagit à la vue, au son (Touche : X), aux dégats (Touche : F)
+- Gestionnaire de musique (Trigger qui fadeout/fadein des musiques)
